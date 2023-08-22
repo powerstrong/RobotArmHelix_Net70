@@ -81,6 +81,7 @@ namespace RobotArmHelix_WPF
         TranslateTransform3D T;
         Vector3D reachingPoint;
         int movements = 10;
+        DispatcherTimer timer1 = new DispatcherTimer();
         //System.Windows.Forms.Timer timer1;
 
 #if IRB6700
@@ -201,9 +202,8 @@ namespace RobotArmHelix_WPF
 
             changeSelectedJoint();
 
-            //timer1 = new System.Windows.Forms.Timer();
-            //timer1.Interval = 5;
-            //timer1.Tick += new System.EventHandler(timer1_Tick);
+            timer1.Interval = TimeSpan.FromMilliseconds(5);
+            timer1.Tick += new System.EventHandler(timer1_Tick);
         }
 
         private Model3DGroup Initialize_Environment(List<string> modelsNames)
@@ -738,40 +738,40 @@ namespace RobotArmHelix_WPF
 
         public void StartInverseKinematics(object sender, RoutedEventArgs e)
         {
-            //if (timer1.Enabled)
-            //{
-            //    button.Content = "Go to position";
-            //    isAnimating = false;
-            //    timer1.Stop();
-            //    movements = 0;
-            //}
-            //else
-            //{
-            //    geom.Transform = new TranslateTransform3D(reachingPoint);
-            //    movements = 5000;
-            //    button.Content = "STOP";
-            //    isAnimating = true;
-            //    timer1.Start();
-            //}
+            if (timer1.IsEnabled)
+            {
+                button.Content = "Go to position";
+                isAnimating = false;
+                timer1.Stop();
+                movements = 0;
+            }
+            else
+            {
+                geom.Transform = new TranslateTransform3D(reachingPoint);
+                movements = 5000;
+                button.Content = "STOP";
+                isAnimating = true;
+                timer1.Start();
+            }
         }
 
         public void timer1_Tick(object sender, EventArgs e)
         {
-            //double[] angles = { joints[0].angle, joints[1].angle, joints[2].angle, joints[3].angle, joints[4].angle, joints[5].angle };
-            //angles = InverseKinematics(reachingPoint, angles);
-            //joint1.Value = joints[0].angle = angles[0];
-            //joint2.Value = joints[1].angle = angles[1];
-            //joint3.Value = joints[2].angle = angles[2];
-            //joint4.Value = joints[3].angle = angles[3];
-            //joint5.Value = joints[4].angle = angles[4];
-            //joint6.Value = joints[5].angle = angles[5];
+            double[] angles = { joints[0].angle, joints[1].angle, joints[2].angle, joints[3].angle, joints[4].angle, joints[5].angle };
+            angles = InverseKinematics(reachingPoint, angles);
+            joint1.Value = joints[0].angle = angles[0];
+            joint2.Value = joints[1].angle = angles[1];
+            joint3.Value = joints[2].angle = angles[2];
+            joint4.Value = joints[3].angle = angles[3];
+            joint5.Value = joints[4].angle = angles[4];
+            joint6.Value = joints[5].angle = angles[5];
 
-            //if ((--movements) <= 0)
-            //{
-            //    button.Content = "Go to position";
-            //    isAnimating = false;
-            //    timer1.Stop();
-            //}
+            if ((--movements) <= 0)
+            {
+                button.Content = "Go to position";
+                isAnimating = false;
+                timer1.Stop();
+            }
         }
 
         public double[] InverseKinematics(Vector3D target, double[] angles)
@@ -1002,7 +1002,7 @@ namespace RobotArmHelix_WPF
         public void SyncJointStates(List<double> positions)
         {
             const double factor_rad_to_deg = 180 / Math.PI;
-            double[] angles =
+            double[] degrees =
             {
                 positions[1] * factor_rad_to_deg,
                 positions[2] * factor_rad_to_deg,
@@ -1014,9 +1014,8 @@ namespace RobotArmHelix_WPF
 
             Application.Current.Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
             {
-                ForwardKinematics(angles);
+                ForwardKinematics(degrees);
             }));
-
         }
     }
 
