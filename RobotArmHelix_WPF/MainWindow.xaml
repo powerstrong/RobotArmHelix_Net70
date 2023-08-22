@@ -10,6 +10,11 @@
         Height="450"
         mc:Ignorable="d">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
         <h:HelixViewport3D x:Name="viewPort3d"
                            Grid.Column="1"
                            BorderBrush="Black"
@@ -604,5 +609,25 @@
                   Checked="CheckBox_StateChanged"
                   Content=""
                   Unchecked="CheckBox_StateChanged" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button x:Name="ConnectionButton"
+                    Width="100"
+                    Margin="5"
+                    Click="ConnectionButtonClicked">
+                <Button.Content>
+                    <TextBlock x:Name="ConnectionTextBlock"
+                               Foreground="Red"
+                               Text="Disconnected" />
+                </Button.Content>
+            </Button>
+            <Button x:Name="SyncButton"
+                    Width="100"
+                    Margin="5"
+                    Click="SyncButtonClicked">
+                <Button.Content>
+                    <TextBlock x:Name="SubscribeStatusTextBlock" Text="Subscribe" />
+                </Button.Content>
+            </Button>
+        </StackPanel>
     </Grid>
 </Window>

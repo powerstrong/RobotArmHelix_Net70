@@ -5,15 +5,11 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <Configurations>Debug;Release;_Simulator_</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HelixToolkit" Version="2.24.0" />
-    <PackageReference Include="HelixToolkit.Wpf" Version="2.24.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Rosbridge\Rosbridge.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>

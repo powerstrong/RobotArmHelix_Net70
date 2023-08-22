@@ -3,18 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotArmHelix_WPF", "RobotArmHelix_WPF\RobotArmHelix_WPF.csproj", "{F307EEB0-24CF-4CBE-89AF-8F2AFC455798}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RobotArmHelix_WPF", "RobotArmHelix_WPF\RobotArmHelix_WPF.csproj", "{F307EEB0-24CF-4CBE-89AF-8F2AFC455798}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rosbridge", "Rosbridge\Rosbridge.csproj", "{6C60BF34-D914-40D6-B1A5-382F881CE53D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		_Simulator_|Any CPU = _Simulator_|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F307EEB0-24CF-4CBE-89AF-8F2AFC455798}._Simulator_|Any CPU.ActiveCfg = Release|Any CPU
+		{F307EEB0-24CF-4CBE-89AF-8F2AFC455798}._Simulator_|Any CPU.Build.0 = Release|Any CPU
 		{F307EEB0-24CF-4CBE-89AF-8F2AFC455798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F307EEB0-24CF-4CBE-89AF-8F2AFC455798}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F307EEB0-24CF-4CBE-89AF-8F2AFC455798}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F307EEB0-24CF-4CBE-89AF-8F2AFC455798}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C60BF34-D914-40D6-B1A5-382F881CE53D}._Simulator_|Any CPU.ActiveCfg = _Simulator_|Any CPU
+		{6C60BF34-D914-40D6-B1A5-382F881CE53D}._Simulator_|Any CPU.Build.0 = _Simulator_|Any CPU
+		{6C60BF34-D914-40D6-B1A5-382F881CE53D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C60BF34-D914-40D6-B1A5-382F881CE53D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C60BF34-D914-40D6-B1A5-382F881CE53D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C60BF34-D914-40D6-B1A5-382F881CE53D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

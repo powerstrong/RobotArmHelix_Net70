@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RobotArmHelix_WPF
+namespace Rosbridge
 {
     /// <summary>
-    /// Window1.xaml에 대한 상호 작용 논리
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class MainWindow : Window
     {
-        public Window1()
+        public MainWindow()
         {
             InitializeComponent();
         }

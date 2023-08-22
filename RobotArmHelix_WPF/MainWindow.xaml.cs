@@ -1,6 +1,6 @@
 ﻿//#define IRB4600
-//#define IRB6700
-#define UR5E
+#define IRB6700
+//#define UR5E
 
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ using System.Windows.Shapes;
 using HelixToolkit.Wpf;
 using System.IO;
 using System.Transactions;
-
+using System.Windows.Threading;
 
 /**
  * Author: Gabriele Marini (Gabryxx7)
@@ -127,16 +127,7 @@ namespace RobotArmHelix_WPF
         private const string MODEL_PATH5 = "UR5_assem_#1 - UR5e_Link4-1-1.stl";
         private const string MODEL_PATH6 = "UR5_assem_#1 - UR5e_Link5-1-1.stl";
         private const string MODEL_PATH7 = "UR5_assem_#1 - UR5e_Link6-1-1.stl";
-
-        //private const string MODEL_PATH1 = "UR5e - UR5_assem-1 Base_UR5_STEP.stl";
-        //private const string MODEL_PATH2 = "UR5e - UR5_assem-1 Link1_UR5_STEP.stl";
-        //private const string MODEL_PATH3 = "UR5e - UR5_assem-1 Link2_UR5_STEP.stl";
-        //private const string MODEL_PATH4 = "UR5e - UR5_assem-1 Link3_UR5_STEP.stl";
-        //private const string MODEL_PATH5 = "UR5e - UR5_assem-1 Link4_UR5_STEP.stl";
-        //private const string MODEL_PATH6 = "UR5e - UR5_assem-1 Link5_UR5_STEP.stl";
-        //private const string MODEL_PATH7 = "UR5e - UR5_assem-1 Link6_UR5_STEP.stl";
 #endif
-
 
         public MainWindow()
         {
@@ -147,6 +138,8 @@ namespace RobotArmHelix_WPF
             geom = new GeometryModel3D(builder.ToMesh(), Materials.Brown);
             visual = new ModelVisual3D();
             visual.Content = geom;
+
+            RosbridgeMgr.Instance.SetMainWindow(this);
 
             InitializeComponent();
             basePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\3D_Models\\";
@@ -972,6 +965,59 @@ namespace RobotArmHelix_WPF
             return new Vector3D(joints[5].model.Bounds.Location.X, joints[5].model.Bounds.Location.Y, joints[5].model.Bounds.Location.Z);
         }
 
+        private bool _isConnected = false;
+        private void ConnectionButtonClicked(object sender, RoutedEventArgs e)
+        {
+            if (_isConnected == false)
+            {
+                RosbridgeMgr.Instance.Connect("ws://localhost:9091");
+                this.ConnectionTextBlock.Text = "Connected";
+                this.ConnectionTextBlock.Foreground = Brushes.Green;
+            }
+            else
+            {
+                RosbridgeMgr.Instance.Close();
+                this.ConnectionTextBlock.Text = "Disconnected";
+                this.ConnectionTextBlock.Foreground = Brushes.Red;
+            }
+            _isConnected = !_isConnected;
+        }
+
+        private bool _isSync = false;
+        private void SyncButtonClicked(object sender, RoutedEventArgs e)
+        {
+            if (_isSync == false)
+            {
+                this.SubscribeStatusTextBlock.Text = "Unsubscribe";
+                RosbridgeMgr.Instance.SubscribeMsg(RosbridgeModel.RosTopics.joint_states, "sensor_msgs/JointState");
+            }
+            else
+            {
+                this.SubscribeStatusTextBlock.Text = "Subscribe";
+                RosbridgeMgr.Instance.UnSubscribeMsg(RosbridgeModel.RosTopics.joint_states, "sensor_msgs/JointState");
+            }
+            _isSync = !_isSync;
+        }
+
+        public void SyncJointStates(List<double> positions)
+        {
+            const double factor_rad_to_deg = 180 / Math.PI;
+            double[] angles =
+            {
+                positions[1] * factor_rad_to_deg,
+                positions[2] * factor_rad_to_deg,
+                positions[3] * factor_rad_to_deg,
+                positions[4] * factor_rad_to_deg,
+                positions[5] * factor_rad_to_deg,
+                positions[6] * factor_rad_to_deg,
+            };
+
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.DataBind, new Action(() =>
+            {
+                ForwardKinematics(angles);
+            }));
+
+        }
     }
 
 }
